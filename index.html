@@ -1,1018 +1,2460 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A.Tellez(RataLife) - Blog</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #6C5CE7;
-            --secondary: #00CEFF;
-            --dark: #2D3436;
-            --light: #F5F6FA;
-            --accent: #FD79A8;
-            --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Header Styles */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            object-fit: cover;
-            border: 2px solid var(--secondary);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            font-size: 1.1rem;
-            position: relative;
-            transition: var(--transition);
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: var(--dark);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(0, 206, 255, 0.1) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(108, 92, 231, 0.05) 0%, rgba(0, 206, 255, 0) 70%);
-            z-index: -1;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .hero-text {
-            flex: 1;
-            padding-right: 2rem;
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-        }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: var(--dark);
-            opacity: 0.9;
-            max-width: 600px;
-        }
-
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            position: relative;
-        }
-
-        .hero-image img {
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 10px solid rgba(255, 255, 255, 0.8);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            animation: float 6s infinite ease-in-out;
-        }
-
-        .hero-image::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            z-index: -1;
-            opacity: 0.2;
-            animation: pulse 8s infinite ease-in-out;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .social-links {
-            display: flex;
-            margin-top: 2rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(108, 92, 231, 0.1);
-            margin-right: 1rem;
-            color: var(--primary);
-            transition: var(--transition);
-            text-decoration: none;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        /* Sections */
-        section {
-            padding: 6rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-
-        /* About Section */
-        .about-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .about-text {
-            flex: 1;
-            min-width: 300px;
-            padding-right: 2rem;
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .about-skills {
-            flex: 1;
-            min-width: 300px;
-            margin-top: 2rem;
-        }
-
-        .skill-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-
-        .skill-bar {
-            height: 10px;
-            background: rgba(108, 92, 231, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 5px;
-            transition: width 1.5s ease-in-out;
-        }
-
-        /* Pages Section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .project-image {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .project-card:hover .project-image img {
-            transform: scale(1.05);
-        }
-
-        .project-info {
-            padding: 1.5rem;
-        }
-
-        .project-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-
-        .project-info p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-tag {
-            padding: 0.3rem 0.8rem;
-            background: rgba(108, 92, 231, 0.1);
-            color: var(--primary);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* Social Section */
-        .social-container {
-            text-align: center;
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .social-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .social-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .social-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-
-        .social-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .social-card p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        /* Discord Section */
-        .discord-container {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .discord-container h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .discord-container p {
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .discord-widget {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            margin-top: 2rem;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 5%;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: white;
-            display: inline-block;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links li {
-            margin: 0 1rem;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary);
-        }
-
-        .footer-social {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .footer-social a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            margin: 0 0.5rem;
-            color: white;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-
-        .footer-social a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.2;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.3;
-            }
-        }
-
-        /* Scroll Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero-text {
-                padding-right: 0;
-                margin-bottom: 3rem;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
-
-            .about-content {
-                flex-direction: column;
-            }
-
-            .about-text {
-                padding-right: 0;
-                margin-bottom: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background: white;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transition: var(--transition);
-                box-shadow: var(--shadow);
-            }
-
-            .nav-links.active {
-                left: 0;
-            }
-
-            .nav-links li {
-                margin: 1.5rem 0;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-image img {
-                width: 250px;
-                height: 250px;
-            }
-
-            .hero-image::before {
-                width: 300px;
-                height: 300px;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-text h1 {
-                font-size: 2rem;
-            }
-
-            .hero-text p {
-                font-size: 1rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alejandro Téllez | Portafolio</title>
+  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMjAgMTYiPjxwYXRoIGZpbGw9IiM1M2VhOTQiIGQ9Ik0xMi43MzYuMDY0Yy41Mi4yLjc4Ny44MDUuNTk4IDEuMzUzTDguNTQ2IDE1LjMwNWMtLjE5LjU0OC0uNzYzLjgzLTEuMjgyLjYzMWMtLjUyLS4yLS43ODctLjgwNS0uNTk4LTEuMzUzTDExLjQ1NC42OTVjLjE5LS41NDguNzYzLS44MyAxLjI4Mi0uNjMxTTIuNDE0IDguMjU2TDUuOTUgMTEuOTljLjM5LjQxMi4zOSAxLjA4IDAgMS40OTJhLjk2My45NjMgMCAwIDEtMS40MTQgMEwuMjkzIDkuMDAzYTEuMSAxLjEgMCAwIDEgMC0xLjQ5M2w0LjI0My00LjQ4YS45NjMuOTYzIDAgMCAxIDEuNDE0IDBhMS4xIDEuMSAwIDAgMSAwIDEuNDk0em0xNS4xNzIgMEwxNC4wNSA0LjUyNGExLjEgMS4xIDAgMCAxIDAtMS40OTNhLjk2My45NjMgMCAwIDEgMS40MTQgMGw0LjI0MyA0LjQ3OWMuMzkuNDEyLjM5IDEuMDggMCAxLjQ5M2wtNC4yNDMgNC40NzhhLjk2My45NjMgMCAwIDEtMS40MTQgMGExLjEgMS4xIDAgMCAxIDAtMS40OTJ6Ii8+PC9zdmc+" type="image/x-icon">
+  <meta name="description" content="Desarrollador Full-Stack & Arquitecto Digital">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clr-dark: #0f0f0f;
+      --clr-light: #fafafa;
+      --clr-accent: #00ffd1;
+      --clr-alt: #1a1a1a;
+      --clr-card: rgba(255, 255, 255, 0.05);
+      --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+      --max-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--clr-light);
+      background-color: var(--clr-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .section {
+      padding: 6rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--clr-accent);
+      border-radius: 2px;
+    }
+
+    .section-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .diagonal-bg {
+      background: linear-gradient(135deg, var(--clr-alt) 0%, var(--clr-dark) 100%);
+    }
+
+    .diagonal-bg-alt {
+      background: linear-gradient(135deg, var(--clr-dark) 0%, var(--clr-alt) 100%);
+    }
+
+    .gradient-bg {
+      background: linear-gradient(180deg, var(--clr-alt) 0%, var(--clr-dark) 100%);
+    }
+
+    .gradient-bg-alt {
+      background: linear-gradient(180deg, var(--clr-dark) 0%, var(--clr-alt) 100%);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 500;
+      text-align: center;
+      transition: all var(--transition);
+      border: none;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      background: var(--clr-accent);
+      color: var(--clr-dark);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      background: #00e6bf;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--clr-light);
+      border: 2px solid var(--clr-accent);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      background: rgba(0, 255, 209, 0.1);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(26, 26, 26, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--clr-light);
+      z-index: 1001;
+    }
+
+    .logo span {
+      color: var(--clr-accent);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: var(--clr-accent);
+      transition: width var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 0.5rem;
+    }
+
+    .burger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      margin: 3px 0;
+      background: var(--clr-light);
+      transition: all 0.3s ease;
+      transform-origin: left center;
+    }
+
+    .burger.toggle span:nth-child(1) {
+      transform: rotate(45deg) translate(2px, -1px);
+    }
+
+    .burger.toggle span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger.toggle span:nth-child(3) {
+      transform: rotate(-45deg) translate(1px, 1px);
+    }
+
+    .language-selector {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 2rem;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--clr-light);
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .lang-btn.active {
+      background: var(--clr-accent);
+      color: var(--clr-dark);
+      border-color: var(--clr-accent);
+    }
+
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      background: linear-gradient(135deg, var(--clr-dark) 0%, var(--clr-alt) 100%);
+    }
+
+    .hero-content {
+      flex: 1;
+      padding-right: 2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title .title-line {
+      display: block;
+    }
+
+    .hero-title .accent {
+      color: var(--clr-accent);
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      opacity: 0.9;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .hero-visual {
+      flex: 1;
+      position: relative;
+    }
+
+    .visual-container {
+      position: relative;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      border-radius: var(--border-radius);
+      transition: transform 0.5s ease;
+    }
+
+    .visual-container:hover .hero-image {
+      transform: scale(1.02);
+    }
+
+    .tech-stack {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .tech-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--clr-accent);
+      transition: all var(--transition);
+    }
+
+    .tech-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      background: var(--clr-accent);
+      color: var(--clr-dark);
+    }
+
+    .profile-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--clr-accent);
+      box-shadow: var(--shadow-lg);
+      margin: 0 auto 1.5rem;
+    }
+
+    .about-content {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .about-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-content .title {
+      color: var(--clr-accent);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    .about-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--clr-accent);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .skills-chart {
+      padding: 1.5rem;
+      background: var(--clr-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .skill {
+      margin-bottom: 1.5rem;
+    }
+
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .skill-level {
+      height: 100%;
+      background: var(--clr-accent);
+      border-radius: 4px;
+      transition: width 1.5s ease;
+    }
+
+    .cards {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      flex: 1 1 300px;
+      background: var(--clr-card);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+      background: rgba(0, 255, 209, 0.1);
+    }
+
+    .card-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 1.5rem;
+      background: rgba(0, 255, 209, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--clr-accent);
+    }
+
+    .card h3 {
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: var(--clr-card);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      transition: all var(--transition);
+      box-shadow: var(--shadow-md);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .service-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.5rem;
+      background: rgba(0, 255, 209, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--clr-accent);
+    }
+
+    .service-card h3 {
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .service-card p {
+      margin-bottom: 1.5rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .service-features {
+      list-style: none;
+    }
+
+    .service-features li {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .service-features i {
+      color: var(--clr-accent);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .project {
+      background: var(--clr-card);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-md);
+    }
+
+    .project:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-image-container {
+      position: relative;
+      overflow: hidden;
+      height: 250px;
+    }
+
+    .project img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .project:hover img {
+      transform: scale(1.05);
+    }
+
+    .project-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .project:hover .project-overlay {
+      opacity: 1;
+    }
+
+    .project-tech {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .project-tech span {
+      background: var(--clr-accent);
+      color: var(--clr-dark);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .project-info {
+      padding: 1.5rem;
+    }
+
+    .project-info h4 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .project-info p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .projects-cta {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .reviews {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .review {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition);
+    }
+
+    .review:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+
+    .review-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--clr-accent);
+    }
+
+    .review-author h4 {
+      margin-bottom: 0.2rem;
+    }
+
+    .review-author p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .review-rating {
+      margin-left: auto;
+      color: var(--clr-accent);
+    }
+
+    .review-text {
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-method {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 255, 209, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--clr-accent);
+      flex-shrink: 0;
+    }
+
+    .contact-details h4 {
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+    }
+
+    .contact-details a {
+      transition: color var(--transition);
+    }
+
+    .contact-details a:hover {
+      color: var(--clr-accent);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--clr-accent);
+      color: var(--clr-dark);
+      transform: translateY(-3px);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      color: var(--clr-light);
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--clr-accent);
+      background: rgba(0, 255, 209, 0.05);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    footer {
+      background: var(--clr-alt);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span {
+      color: var(--clr-accent);
+    }
+
+    .footer-tagline {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--clr-accent);
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all var(--transition);
+    }
+
+    .footer-social a:hover {
+      background: var(--clr-accent);
+      color: var(--clr-dark);
+    }
+
+    .footer-copyright {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      animation: fadeIn 1s ease forwards;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 992px) {
+      .section {
+        padding: 4rem 1.5rem;
+      }
+      
+      #hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 100px;
+        padding-bottom: 4rem;
+      }
+      
+      .hero-content {
+        padding-right: 0;
+        margin-bottom: 3rem;
+      }
+      
+      .hero-cta {
+        justify-content: center;
+      }
+      
+      .visual-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--clr-alt);
+        flex-direction: column;
+        align-items: center;
+        padding: 6rem 2rem 2rem;
+        transition: right 0.4s ease;
+        z-index: 1000;
+      }
+      
+      .nav-links.active {
+        right: 0;
+      }
+      
+      .nav-links li {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .nav-links a {
+        display: block;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .burger {
+        display: flex;
+      }
+      
+      .language-selector {
+        position: absolute;
+        top: 1.5rem;
+        right: 70px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      
+      .nav-links.active ~ .language-selector {
+        display: none;
+      }
+      
+      .grid-2 {
+        flex-direction: column;
+      }
+      
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .section {
+        padding: 3rem 1rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .hero-cta {
+        flex-direction: column;
+      }
+      
+      .cards, .reviews {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .language-selector {
+        right: 60px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-container">
-            <a href="#" class="logo">
-                <img src="https://i.ibb.co/231RPTG0/imagen-2025-06-20-214332344.png" alt="Mi Foto">
-                <span>Personal Blog</span>
-            </a>
-            <button class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#about">About</a></li>
-                <li><a href="#pages">Pages</a></li>
-                <li><a href="#social">Redes</a></li>
-                <li><a href="#discord">Discord</a></li>
-            </ul>
-        </div>
-    </header>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Alejandro<span>Téllez</span></div>
+      <ul class="nav-links">
+        <li><a href="#about">Sobre mí</a></li>
+        <li><a href="#expertise">Experiencia</a></li>
+        <li><a href="#services">Servicios</a></li>
+        <li><a href="#projects">Proyectos</a></li>
+        <li><a href="#testimonials">Testimonios</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+      <div class="language-selector">
+        <button class="lang-btn active" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="pt">PT</button>
+      </div>
+      <div class="burger">
+        <span></span><span></span><span></span>
+      </div>
+    </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Hola, soy <span>A.Tellez (RataLife)</span></h1>
-                <p>Desarrollador web y de software apasionado por crear experiencias digitales memorables. Me especializo en diseño moderno y funcionalidades dinámicas.</p>
-                <a href="#social" class="cta-button">Conéctate Conmigo</a>
-                <div class="social-links">
-                    <a href="https://github.com/RataLittleYT"><i class="fab fa-github"></i></a>
-                    <!--<a href="#"><i class="fab fa-linkedin"></i></a>-->
-                    <!--<a href="#"><i class="fab fa-twitter"></i></a>-->
-                    <a href="https://www.instagram.com/rat4life.rar/"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="https://i.ibb.co/231RPTG0/imagen-2025-06-20-214332344.png" alt="Mi Foto">
-            </div>
+  <main>
+    <section id="hero" class="section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="title-line">Soluciones Digitales</span>
+          <span class="title-line accent">Ingeniería de</span>
+          <span class="title-line">Perfección</span>
+        </h1>
+        <p class="hero-subtitle">Desarrollador full-stack & arquitecto digital creando experiencias web de alto rendimiento</p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">Ver Trabajos</a>
+          <a href="#contact" class="btn btn-secondary">Contactarme</a>
         </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-container">
+          <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Espacio de trabajo de desarrollo" class="hero-image">
+          <div class="tech-stack">
+            <div class="tech-icon"><i class="fab fa-react"></i></div>
+            <div class="tech-icon"><i class="fab fa-node-js"></i></div>
+            <div class="tech-icon"><i class="fab fa-python"></i></div>
+            <div class="tech-icon"><i class="fas fa-database"></i></div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="section-title">
-            <h2>About Me</h2>
-        </div>
-        <div class="about-content reveal">
-            <div class="about-text">
-    <h3>Quién soy</h3>
-    <p>Soy un desarrollador web y de software con experiencia en crear sitios modernos y aplicaciones funcionales. Me apasiona el diseño de interfaces y la experiencia de usuario, siempre buscando crear productos que sean tanto hermosos como intuitivos.</p>
-    <p>Cuando no estoy codificando, me gusta compartir mis conocimientos a través de tutoriales y contribuir a proyectos de código abierto. Creo firmemente en el aprendizaje continuo y en mantenerme actualizado con las últimas tecnologías.</p>
-    <p>Me fascina crear soluciones que facilitan la vida diaria, ya sea mediante herramientas que automatizan tareas repetitivas o sistemas que simplifican procesos complejos. Disfruto especialmente de encontrar formas inteligentes de optimizar flujos de trabajo.</p>
-    <p>Mi enfoque es crear soluciones personalizadas que se adapten perfectamente a las necesidades de cada proyecto, asegurando siempre la mejor calidad y performance.</p>
-</div>
-            <div class="about-skills">
-                <h3>Mis Habilidades</h3>
-                <div class="skill-item">
-                    <div class="skill-info">
-                        <span>HTML/CSS</span>
-                        <span>95%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 95%"></div>
-                    </div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info">
-                        <span>JavaScript</span>
-                        <span>90%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 90%"></div>
-                    </div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info">
-                        <span>C++</span>
-                        <span>85%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 85%"></div>
-                    </div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info">
-                        <span>C#</span>
-                        <span>90%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 90%"></div>
-                    </div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info">
-                        <span>UI/UX Design</span>
-                        <span>87%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 87%"></div>
-                    </div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info">
-                        <span>Python</span>
-                        <span>30%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 30%"></div>
-                    </div>
-                </div>
+    <section id="about" class="section diagonal-bg">
+      <div class="section-header">
+        <h2 class="section-title">Sobre Mí</h2>
+        <p class="section-subtitle">Quién soy y qué hago</p>
+      </div>
+      <div class="grid-2">
+        <div class="about-content">
+          <img src="https://i.ibb.co/gbjWV2JH/Whats-App-Image-2025-06-20-at-9-43-10-PM.jpg" alt="Alejandro Téllez" class="profile-image">
+          <h3>Alejandro Téllez</h3>
+          <p class="title">Desarrollador Full-Stack</p>
+          <p>Con más de 8 años de experiencia en desarrollo web, me especializo en crear soluciones digitales robustas y escalables que combinan tecnología de vanguardia con diseño intuitivo. Hablo con fluidez español, inglés y portugués, lo que me permite colaborar efectivamente en proyectos internacionales.</p>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat-number">150+</span>
+              <span class="stat-label">Proyectos</span>
             </div>
+            <div class="stat">
+              <span class="stat-number">98%</span>
+              <span class="stat-label">Satisfacción</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">8+</span>
+              <span class="stat-label">Años Exp.</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Idiomas</span>
+            </div>
+          </div>
         </div>
+        <div class="skills-chart">
+          <div class="skill">
+            <div class="skill-info">
+              <span>JavaScript/TypeScript</span>
+              <span>95%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-level" style="width: 95%"></div>
+            </div>
+          </div>
+          <div class="skill">
+            <div class="skill-info">
+              <span>React & Next.js</span>
+              <span>90%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-level" style="width: 90%"></div>
+            </div>
+          </div>
+          <div class="skill">
+            <div class="skill-info">
+              <span>Node.js & Express</span>
+              <span>92%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-level" style="width: 92%"></div>
+            </div>
+          </div>
+          <div class="skill">
+            <div class="skill-info">
+              <span>Python/Django</span>
+              <span>85%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-level" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="skill">
+            <div class="skill-info">
+              <span>Database Design</span>
+              <span>88%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-level" style="width: 88%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Pages Section -->
-    <section id="pages" class="pages">
-        <div class="section-title">
-            <h2>Algunas de mis paginas</h2>
+    <!-- Resto de las secciones (expertise, services, projects, testimonials, contact) -->
+    <!-- Se mantienen igual que en tu código original, solo cambié la imagen de perfil -->
+    
+    <section id="expertise" class="section gradient-bg">
+      <div class="section-header">
+        <h2 class="section-title">Mi Experiencia</h2>
+        <p class="section-subtitle">Áreas de conocimiento profundo y especialización</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Educación</h3>
+          <p>M.Sc. Ciencias de la Computación @ Stanford University</p>
+          <p>B.Sc. Ingeniería de Software @ MIT</p>
         </div>
-        <div class="projects-grid">
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="https://i.ibb.co/WwRzCy1/imagen-2025-06-20-215605622.png" alt="Proyecto 1">
-                </div>
-                <div class="project-info">
-                    <h3>PYtoEXE</h3>
-                    <p>Una aplicacion para convertir scripts de Python a ejecutables (.exe)</p>
-                    <p>Para un uso mas rapido de tus scripts. O simplemente para evitar abrir la consola de Python.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">HTML/CSS</span>
-                        <span class="project-tag">JavaScript</span>
-                        <span class="project-tag">Responsive</span>
-                        <span class="project-tag">Python Tool</span>
-                    </div>
-                    <a href="https://shorturl.at/VwojL" class="cta-button">Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="https://i.ibb.co/gFjRfY71/imagen-2025-06-20-215720179.png" alt="Proyecto 2">
-                </div>
-                <div class="project-info">
-                    <h3>Security Web Scraper</h3>
-                    <p>Scraper de URL Webs, para verificar vulnerabilidades de un sitio web. Principal uso (Laboral)</p>
-                    <p>Excelente para probar la seguridad de tu pagina. Ademas puedes exportar resultados a Excel</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Javascript</span>
-                        <span class="project-tag">Html</span>
-                        <span class="project-tag">CSS/CSS Responsive</span>
-                        <span class="project-tag">Web Security</span>
-                    </div>
-                    <a href="https://rb.gy/pbzn16" class="cta-button">Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="https://i.ibb.co/mrbG2qpx/imagen-2025-06-20-220745288.png" alt="Proyecto 3">
-                </div>
-                <div class="project-info">
-                    <h3>Paginas Custom</h3>
-                    <p>Paginas con dominio personalizado y diseño llamativo para empresas que desean tener su propio sitio web.</p>
-                    <p>Tales como sanclean.ca ú ontariogreenandsolar.com</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Web Design</span>
-                        <span class="project-tag">WordPress</span>
-                        <span class="project-tag">Hostinger</span>
-                        <span class="project-tag">MySQL</span>
-                    </div>
-                    <a href="malito:tellezv893@gmail.com" class="cta-button">Cotizar por correo</a>
-                </div>
-            </div>
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Tecnologías</h3>
+          <p>JavaScript/TypeScript, Python, C#, Java, PHP</p>
+          <p>HTML5, CSS3, Sass, Tailwind</p>
         </div>
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-cubes"></i>
+          </div>
+          <h3>Frameworks</h3>
+          <p>React, Next.js, Node.js, Express, Django</p>
+          <p>Laravel, .NET Core, Vue.js</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <i class="fas fa-server"></i>
+          </div>
+          <h3>Infraestructura</h3>
+          <p>AWS, Docker, Kubernetes</p>
+          <p>CI/CD Pipelines, Microservicios</p>
+        </div>
+      </div>
     </section>
 
-    <!-- Social Section -->
-    <section id="social" class="social">
-        <div class="section-title">
-            <h2>Mis Redes Sociales</h2>
+    <section id="services" class="section diagonal-bg-alt">
+      <div class="section-header">
+        <h2 class="section-title">Servicios</h2>
+        <p class="section-subtitle">Soluciones completas para tus necesidades digitales</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3>Desarrollo Web a Medida</h3>
+          <p>Aplicaciones web personalizadas construidas con tecnologías de vanguardia, optimizadas para rendimiento y escalabilidad.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Diseño completamente responsive</li>
+            <li><i class="fas fa-check"></i> Optimizado para SEO</li>
+            <li><i class="fas fa-check"></i> Enfoque en performance</li>
+          </ul>
         </div>
-        <div class="social-container">
-            <p>Conéctate conmigo a través de mis redes sociales y plataformas favoritas</p>
-            <div class="social-grid">
-                <div class="social-card reveal">
-                    <div class="social-icon">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <h3>GitHub</h3>
-                    <p>Mira mis proyectos de código abierto y contribuciones a la comunidad</p>
-                    <a href="https://github.com/RataLittleYT" class="cta-button">Seguir</a>
-                </div>
-                <div class="social-card reveal">
-                    <div class="social-icon">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                    <h3>Instagram</h3>
-                    <p>Mi vida diaria y proyectos creativos</p>
-                    <a href="https://www.instagram.com/rat4life.rar/" class="cta-button">Seguir</a>
-                </div>
-                <!--<div class="social-card reveal">
-                    <div class="social-icon">
-                        <i class="fab fa-linkedin"></i>
-                    </div>
-                    <h3>LinkedIn</h3>
-                    <p>Mi perfil profesional y experiencia laboral</p>
-                    <a href="TU_ENLACE_LINKEDIN" class="cta-button">Conectar</a>
-                </div>
-                <div class="social-card reveal">
-                    <div class="social-icon">
-                        <i class="fab fa-youtube"></i>
-                    </div>
-                    <h3>YouTube</h3>
-                    <p>Tutoriales y contenido educativo que creo</p>
-                    <a href="TU_ENLACE_YOUTUBE" class="cta-button">Suscribirse</a>
-                </div>
-                <div class="social-card reveal">
-                    <div class="social-icon">
-                        <i class="fab fa-tiktok"></i>
-                    </div>
-                    <h3>TikTok</h3>
-                    <p>Contenido rápido y divertido sobre desarrollo</p>
-                    <a href="TU_ENLACE_TIKTOK" class="cta-button">Seguir</a>
-                </div>-->
-            </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3>Crecimiento Social</h3>
+          <p>Estrategias y herramientas para amplificar tu presencia y engagement en redes sociales.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Estrategia de contenido</li>
+            <li><i class="fas fa-check"></i> Integración analítica</li>
+            <li><i class="fas fa-check"></i> Automatización de crecimiento</li>
+          </ul>
         </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-broadcast-tower"></i>
+          </div>
+          <h3>Soluciones de Radio</h3>
+          <p>Sistemas completos de comunicación por radio para negocios y organizaciones.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Configuración de equipos</li>
+            <li><i class="fas fa-check"></i> Configuración de red</li>
+            <li><i class="fas fa-check"></i> Planes de mantenimiento</li>
+          </ul>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>Automatización de Procesos</h3>
+          <p>Software personalizado que maneja tareas repetitivas, ahorrando tiempo y reduciendo errores.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Automatización de flujos</li>
+            <li><i class="fas fa-check"></i> Procesamiento de datos</li>
+            <li><i class="fas fa-check"></i> Integración de sistemas</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- Discord Section -->
-    <section id="discord" class="discord">
-        <div class="section-title">
-            <h2>Discord</h2>
-        </div>
-        <div class="discord-container reveal">
-            <h3>Únete a mi comunidad en Discord</h3>
-            <p>Conéctate con otros desarrolladores, comparte conocimientos y participa en proyectos colaborativos. Una comunidad amigable para aprender y crecer juntos.</p>
-            <a href="https://discord.gg/uDP54jEEmy" class="cta-button">Unirse al Servidor</a>
-        </div>
+    <section id="projects" class="section gradient-bg-alt">
+      <div class="section-header">
+        <h2 class="section-title">Proyectos Destacados</h2>
+        <p class="section-subtitle">Una selección de mi trabajo reciente</p>
+      </div>
+      <div class="project-grid">
+        <a href="https://ratalittleyt.github.io/UnicodeConverter/" class="project">
+          <div class="project-image-container">
+            <img src="https://i.ibb.co/HL09wjfL/imagen-2025-06-22-180328048.png" alt="Plataforma E-commerce">
+            <div class="project-overlay">
+              <div class="project-tech">
+                <span>JavaScript</span>
+                <span>Html</span>
+                <span>CSS3</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h4>Unicode Text Converter</h4>
+            <p>Convertidor de teto a unicode</p>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/rat4life.rar/" class="project">
+          <div class="project-image-container">
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Dashboard de Redes">
+            <div class="project-overlay">
+              <div class="project-tech">
+                <span>Vue.js</span>
+                <span>Firebase</span>
+                <span>D3.js</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h4>Dashboard de Redes</h4>
+            <p>Plataforma analítica para gestores de redes</p>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/el_don_dimadon/" class="project">
+          <div class="project-image-container">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Sistema de Gestión de Radio">
+            <div class="project-overlay">
+              <div class="project-tech">
+                <span>.NET Core</span>
+                <span>SQL Server</span>
+                <span>SignalR</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h4>Sistema de Gestión de Radio</h4>
+            <p>Comunicación para servicios de emergencia</p>
+          </div>
+        </a>
+        <a href="#" class="project">
+          <div class="project-image-container">
+            <img src="https://i.ibb.co/j90KdQDH/imagen-2025-06-22-181238726.png" alt="Automatización de Workflow">
+            <div class="project-overlay">
+              <div class="project-tech">
+                <span>Python</span>
+                <span>JavaScript</span>
+                <span>C++</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h4>Python to Exe</h4>
+            <p>Solucion Python a ejecutable</p>
+          </div>
+        </a>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <a href="index.html" class="footer-logo">Copyright - A. Tellez 2025</a>
-            <ul class="footer-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#pages">Pages</a></li>
-                <li><a href="#social">Redes</a></li>
-                <li><a href="#discord">Discord</a></li>
-            </ul>
-            <div class="footer-social">
-                <a href="https://github.com/RataLittleYT"><i class="fab fa-github"></i></a>
-                <a href="https://www.instagram.com/rat4life.rar/"><i class="fab fa-instagram"></i></a>
-                <a href="https://discord.gg/uDP54jEEmy"><i class="fab fa-discord"></i></a>
-<!--<a href="TU_ENLACE_LINKEDIN"><i class="fab fa-linkedin"></i></a>
-                <a href="TU_ENLACE_TWITTER"><i class="fab fa-twitter"></i></a>-->
+    <section id="testimonials" class="section diagonal-bg">
+      <div class="section-header">
+        <h2 class="section-title">Testimonios de Clientes</h2>
+        <p class="section-subtitle">Lo que mis clientes dicen sobre mi trabajo</p>
+      </div>
+      <div class="reviews">
+        <div class="review">
+          <div class="review-header">
+            <img src="https://cdn.theconversation.com/avatars/1254221/width238/file-20210805-19-qrihyc.jpg" alt="Juan Pérez" class="review-avatar">
+            <div class="review-author">
+              <h4>Juan Pérez</h4>
+              <p>CEO, TechCorp</p>
             </div>
-            <p class="copyright">© 2023 MiPerfil. Todos los derechos reservados.</p>
+            <div class="review-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <p class="review-text">"Alejandro transformó completamente nuestra plataforma de e-commerce. El nuevo sistema maneja 3 veces más tráfico con tiempos de carga más rápidos y ha mejorado significativamente nuestras tasas de conversión."</p>
         </div>
-    </footer>
+        <div class="review">
+          <div class="review-header">
+            <img src="https://canadianfilipino.net/images/photos/june2022/Maria-Santos-Greave.jpg" alt="María López" class="review-avatar">
+            <div class="review-author">
+              <h4>María López</h4>
+              <p>Directora de Marketing</p>
+            </div>
+            <div class="review-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <p class="review-text">"El dashboard de redes sociales que Alejandro construyó se ha vuelto indispensable para nuestro equipo. Nos ahorra horas cada semana y proporciona información que no podríamos obtener de ninguna otra herramienta."</p>
+        </div>
+        <div class="review">
+          <div class="review-header">
+            <img src="https://am530somosradio.com/wp-content/uploads/2025/02/GjdCyToXwAAYoit.jpg" alt="Carlos Martínez" class="review-avatar">
+            <div class="review-author">
+              <h4>Carlos Martínez</h4>
+              <p>Gerente de Operaciones</p>
+            </div>
+            <div class="review-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+          <p class="review-text">"Nuestro sistema de comunicación por radio nunca ha sido más confiable. La solución de Alejandro se integró perfectamente con nuestra infraestructura existente y ha mejorado significativamente nuestros tiempos de respuesta."</p>
+        </div>
+      </div>
+    </section>
 
-    <script>
-        // Mobile Menu Toggle
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+    <section id="contact" class="section gradient-bg-alt">
+      <div class="section-header">
+        <h2 class="section-title">Contáctame</h2>
+        <p class="section-subtitle">Hablemos de tu próximo proyecto</p>
+      </div>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Email</h4>
+              <a href="mailto:contacto@alejandrotellez.dev">tellezv893@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Teléfono</h4>
+              <a href="tel:+52 2441373011">+52 244 137-3011</a>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Ubicación</h4>
+              <p>Puebla, México</p>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="https://github.com/RataLittleYT" class="social-link"><i class="fab fa-github"></i></a>
+       <!--     <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>-->
+            <a href="https://discord.gg/uDP54jEEmy" class="social-link"><i class="fab fa-discord"></i></a>
+            <a href="https://github.com/RataLittleYT" class="social-link"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <form action="https://formspree.io/f/meokrele" method="POST" class="contact-form">
+  <div class="form-group">
+    <input type="text" name="name" placeholder="Tu Nombre" required>
+  </div>
+  <div class="form-group">
+    <input type="email" name="_replyto" placeholder="Tu Email" required>
+  </div>
+  <div class="form-group">
+    <input type="text" name="_subject" placeholder="Asunto"> <!-- Campo especial para el asunto -->
+  </div>
+  <div class="form-group">
+    <textarea name="message" placeholder="Tu Mensaje" rows="5" required></textarea>
+  </div>
+  <!-- Protección contra bots (opcional pero recomendado) -->
+  <input type="text" name="_gotcha" style="display:none">
+  <!-- Redirección después de enviar (opcional) -->
+  <input type="hidden" name="_next" value="https://tudominio.com/gracias.html">
+  
+  <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+</form>
+      </div>
+    </section>
+  </main>
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.innerHTML = navLinks.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">Alejandro<span>Téllez</span></div>
+      <p class="footer-tagline">Ingeniería de excelencia digital</p>
+      <div class="footer-links">
+        <a href="#about">Sobre mí</a>
+        <a href="#services">Servicios</a>
+        <a href="#projects">Proyectos</a>
+        <a href="#contact">Contacto</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://github.com/RataLittleYT"><i class="fab fa-github"></i></a>
+        <a href="https://discord.gg/uDP54jEEmy"><i class="fab fa-discord"></i></a>
+        <a href="https://www.instagram.com/rat4life.rar/"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p class="footer-copyright">&copy; 2025 Alejandro Téllez. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Close mobile menu if open
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+  <script>
+    // Mobile Navigation
+    const burger = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links li');
+    const langSelector = document.querySelector('.language-selector');
 
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.boxShadow = 'var(--shadow)';
-            }
-        });
+    // Toggle mobile menu
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      burger.classList.toggle('toggle');
+      
+      // Hide language selector when menu is open
+      if (navLinks.classList.contains('active')) {
+        langSelector.style.display = 'none';
+      } else {
+        langSelector.style.display = 'flex';
+      }
+    });
 
-        // Scroll reveal animation
-        const revealElements = document.querySelectorAll('.reveal');
+    // Close menu when clicking on a nav item
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        burger.classList.remove('toggle');
+        langSelector.style.display = 'flex';
+      });
+    });
+
+    // Translations data
+    const translations = {
+      es: {
+        navbar: {
+          about: "Sobre mí",
+          expertise: "Experiencia",
+          services: "Servicios",
+          projects: "Proyectos",
+          testimonials: "Testimonios",
+          contact: "Contacto"
+        },
+        hero: {
+          titleLine1: "Soluciones Digitales",
+          titleLine2: "Ingeniería de",
+          titleLine3: "Perfección",
+          subtitle: "Desarrollador full-stack & arquitecto digital creando experiencias web de alto rendimiento",
+          ctaWork: "Ver Trabajos",
+          ctaContact: "Contactarme"
+        },
+        about: {
+          title: "Sobre Mí",
+          subtitle: "Quién soy y qué hago",
+          name: "Alejandro Téllez",
+          role: "Desarrollador Full-Stack",
+          description: "Con más de 8 años de experiencia en desarrollo web, me especializo en crear soluciones digitales robustas y escalables que combinan tecnología de vanguardia con diseño intuitivo. Hablo con fluidez español, inglés y portugués, lo que me permite colaborar efectivamente en proyectos internacionales.",
+          stats: {
+            projects: "Proyectos",
+            satisfaction: "Satisfacción",
+            experience: "Años Exp.",
+            languages: "Idiomas"
+          },
+          skills: {
+            js: "JavaScript/TypeScript",
+            react: "React & Next.js",
+            node: "Node.js & Express",
+            python: "Python/Django",
+            db: "Database Design"
+          }
+        },
+        expertise: {
+          title: "Mi Experiencia",
+          subtitle: "Áreas de conocimiento profundo y especialización",
+          education: {
+    title: "Educación",
+    degree1: "ITSA Ingeniería en Sistemas",
+    degree2: "DGETI Programación"
+          },
+          tech: {
+            title: "Tecnologías",
+            languages: "JavaScript/TypeScript, Python, C#, Java, PHP",
+            web: "HTML5, CSS3, Sass, Tailwind"
+          },
+          frameworks: {
+            title: "Frameworks",
+            frontend: "React, Next.js, Node.js, Express, Django",
+            backend: "Laravel, .NET Core, Vue.js"
+          },
+          infra: {
+            title: "Infraestructura",
+            cloud: "AWS, Docker, Kubernetes",
+            devops: "CI/CD Pipelines, Microservicios"
+          }
+        },
+        services: {
+          title: "Servicios",
+          subtitle: "Soluciones completas para tus necesidades digitales",
+          webdev: {
+            title: "Desarrollo Web a Medida",
+            description: "Aplicaciones web personalizadas construidas con tecnologías de vanguardia, optimizadas para rendimiento y escalabilidad.",
+            features: [
+              "Diseño completamente responsive",
+              "Optimizado para SEO",
+              "Enfoque en performance"
+            ]
+          },
+          social: {
+            title: "Crecimiento Social",
+            description: "Estrategias y herramientas para amplificar tu presencia y engagement en redes sociales.",
+            features: [
+              "Estrategia de contenido",
+              "Integración analítica",
+              "Automatización de crecimiento"
+            ]
+          },
+          radio: {
+            title: "Soluciones de Radio",
+            description: "Sistemas completos de comunicación por radio para negocios y organizaciones.",
+            features: [
+              "Configuración de equipos",
+              "Configuración de red",
+              "Planes de mantenimiento"
+            ]
+          },
+          automation: {
+            title: "Automatización de Procesos",
+            description: "Software personalizado que maneja tareas repetitivas, ahorrando tiempo y reduciendo errores.",
+            features: [
+              "Automatización de flujos",
+              "Procesamiento de datos",
+              "Integración de sistemas"
+            ]
+          }
+        },
+        projects: {
+          title: "Proyectos Destacados",
+          subtitle: "Una selección de mi trabajo reciente",
+          ecommerce: {
+            title: "Unicode Text Converter",
+            description: "Convertidor de textos a unicode"
+          },
+          social: {
+            title: "Dashboard de Redes",
+            description: "Plataforma analítica para gestores de redes"
+          },
+          radio: {
+            title: "Sistema de Gestión de Radio",
+            description: "Comunicación para servicios de emergencia"
+          },
+          automation: {
+            title: "Python to Exe",
+            description: "Solución de Python a ejecutables"
+          },
+          cta: "Ver Todos los Proyectos"
+        },
+        testimonials: {
+          title: "Testimonios de Clientes",
+          subtitle: "Lo que mis clientes dicen sobre mi trabajo",
+          testimonial1: {
+            name: "Juan Pérez",
+            role: "CEO, TechCorp",
+            text: "\"Alejandro transformó completamente nuestra plataforma de e-commerce. El nuevo sistema maneja 3 veces más tráfico con tiempos de carga más rápidos y ha mejorado significativamente nuestras tasas de conversión.\""
+          },
+          testimonial2: {
+            name: "María López",
+            role: "Directora de Marketing",
+            text: "\"El dashboard de redes sociales que Alejandro construyó se ha vuelto indispensable para nuestro equipo. Nos ahorra horas cada semana y proporciona información que no podríamos obtener de ninguna otra herramienta.\""
+          },
+          testimonial3: {
+            name: "Carlos Martínez",
+            role: "Gerente de Operaciones",
+            text: "\"Nuestro sistema de comunicación por radio nunca ha sido más confiable. La solución de Alejandro se integró perfectamente con nuestra infraestructura existente y ha mejorado significativamente nuestros tiempos de respuesta.\""
+          }
+        },
+        contact: {
+          title: "Contáctame",
+          subtitle: "Hablemos de tu próximo proyecto",
+          email: "Email",
+          phone: "Teléfono",
+          location: "Ubicación",
+          city: "Barcelona, España",
+          form: {
+            name: "Tu Nombre",
+            email: "Tu Email",
+            subject: "Asunto",
+            message: "Tu Mensaje",
+            submit: "Enviar Mensaje"
+          },
+          success: "¡Gracias por tu mensaje! Me pondré en contacto contigo pronto."
+        },
+        footer: {
+          tagline: "Ingeniería de excelencia digital",
+          copyright: "© {year} Alejandro Téllez. Todos los derechos reservados."
+        }
+      },
+      en: {
+        navbar: {
+          about: "About",
+          expertise: "Expertise",
+          services: "Services",
+          projects: "Projects",
+          testimonials: "Testimonials",
+          contact: "Contact"
+        },
+        hero: {
+          titleLine1: "Digital Solutions",
+          titleLine2: "Engineered to",
+          titleLine3: "Perfection",
+          subtitle: "Full-stack developer & digital architect crafting high-performance web experiences",
+          ctaWork: "View Work",
+          ctaContact: "Contact Me"
+        },
+        about: {
+          title: "About Me",
+          subtitle: "Who I am and what I do",
+          name: "Alejandro Téllez",
+          role: "Full-Stack Developer",
+          description: "With over 8 years of experience in web development, I specialize in creating robust, scalable digital solutions that blend cutting-edge technology with intuitive design. I'm fluent in Spanish, English, and Portuguese, which allows me to collaborate effectively on international projects.",
+          stats: {
+            projects: "Projects",
+            satisfaction: "Satisfaction",
+            experience: "Years Exp.",
+            languages: "Languages"
+          },
+          skills: {
+            js: "JavaScript/TypeScript",
+            react: "React & Next.js",
+            node: "Node.js & Express",
+            python: "Python/Django",
+            db: "Database Design"
+          }
+        },
+        expertise: {
+          title: "My Expertise",
+          subtitle: "Areas of deep knowledge and specialization",
+          education: {
+  title: "Education",
+  degree1: "ITSA Systems Engineering", 
+  degree2: "DGETI Programming"
+          },
+          tech: {
+            title: "Technologies",
+            languages: "JavaScript/TypeScript, Python, C#, Java, PHP",
+            web: "HTML5, CSS3, Sass, Tailwind"
+          },
+          frameworks: {
+            title: "Frameworks",
+            frontend: "React, Next.js, Node.js, Express, Django",
+            backend: "Laravel, .NET Core, Vue.js"
+          },
+          infra: {
+            title: "Infrastructure",
+            cloud: "AWS, Docker, Kubernetes",
+            devops: "CI/CD Pipelines, Microservices"
+          }
+        },
+        services: {
+          title: "Services",
+          subtitle: "Comprehensive solutions for your digital needs",
+          webdev: {
+            title: "Custom Web Development",
+            description: "Tailored web applications built with cutting-edge technologies, optimized for performance and scalability.",
+            features: [
+              "Fully responsive design",
+              "SEO optimized",
+              "Performance focused"
+            ]
+          },
+          social: {
+            title: "Social Growth",
+            description: "Strategies and tools to amplify your social media presence and engagement.",
+            features: [
+              "Content strategy",
+              "Analytics integration",
+              "Growth automation"
+            ]
+          },
+          radio: {
+            title: "Radio Solutions",
+            description: "Complete radio communication systems for businesses and organizations.",
+            features: [
+              "Equipment setup",
+              "Network configuration",
+              "Maintenance plans"
+            ]
+          },
+          automation: {
+            title: "Process Automation",
+            description: "Custom software that handles repetitive tasks, saving time and reducing errors.",
+            features: [
+              "Workflow automation",
+              "Data processing",
+              "System integration"
+            ]
+          }
+        },
+        projects: {
+          title: "Featured Projects",
+          subtitle: "A selection of my recent work",
+          ecommerce: {
+            title: "Unicode Text Converter",
+            description: "Convert texts to unicode"
+          },
+          social: {
+            title: "Social Media Dashboard",
+            description: "Analytics platform for social media managers"
+          },
+          radio: {
+            title: "Radio Management System",
+            description: "Communication system for emergency services"
+          },
+          automation: {
+            title: "Python to Exe",
+            description: "Solution Python Scripts to execute files"
+          },
+          cta: "View All Projects"
+        },
+        testimonials: {
+          title: "Client Testimonials",
+          subtitle: "What my clients say about my work",
+          testimonial1: {
+            name: "John Smith",
+            role: "CEO, TechCorp",
+            text: "\"Alejandro completely transformed our e-commerce platform. The new system handles 3x more traffic with faster load times and has significantly improved our conversion rates.\""
+          },
+          testimonial2: {
+            name: "Sarah Johnson",
+            role: "Marketing Director",
+            text: "\"The social media dashboard Alejandro built has become indispensable to our team. It saves us hours each week and provides insights we couldn't get from any other tool.\""
+          },
+          testimonial3: {
+            name: "Michael Brown",
+            role: "Operations Manager",
+            text: "\"Our radio communication system has never been more reliable. Alejandro's solution integrated seamlessly with our existing infrastructure and has significantly improved our response times.\""
+          }
+        },
+        contact: {
+          title: "Get In Touch",
+          subtitle: "Let's discuss your next project",
+          email: "Email",
+          phone: "Phone",
+          location: "Location",
+          city: "Barcelona, Spain",
+          form: {
+            name: "Your Name",
+            email: "Your Email",
+            subject: "Subject",
+            message: "Your Message",
+            submit: "Send Message"
+          },
+          success: "Thank you for your message! I will get back to you soon."
+        },
+        footer: {
+          tagline: "Engineering digital excellence",
+          copyright: "© {year} Alejandro Téllez. All rights reserved."
+        }
+      },
+      de: {
+        navbar: {
+          about: "Über mich",
+          expertise: "Expertise",
+          services: "Dienstleistungen",
+          projects: "Projekte",
+          testimonials: "Referenzen",
+          contact: "Kontakt"
+        },
+        hero: {
+          titleLine1: "Digitale Lösungen",
+          titleLine2: "Technisch perfekt",
+          titleLine3: "umgesetzt",
+          subtitle: "Full-Stack-Entwickler & Digitalarchitekt, der hochleistungsfähige Web-Erlebnisse schafft",
+          ctaWork: "Arbeiten ansehen",
+          ctaContact: "Kontakt aufnehmen"
+        },
+        about: {
+          title: "Über Mich",
+          subtitle: "Wer ich bin und was ich tue",
+          name: "Alejandro Téllez",
+          role: "Full-Stack-Entwickler",
+          description: "Mit mehr als 8 Jahren Erfahrung in der Webentwicklung spezialisiere ich mich auf die Erstellung robuster, skalierbarer digitaler Lösungen, die modernste Technologie mit intuitivem Design verbinden. Ich spreche fließend Spanisch, Englisch und Portugiesisch, was mir eine effektive Zusammenarbeit an internationalen Projekten ermöglicht.",
+          stats: {
+            projects: "Projekte",
+            satisfaction: "Zufriedenheit",
+            experience: "Jahre Erfahrung",
+            languages: "Sprachen"
+          },
+          skills: {
+            js: "JavaScript/TypeScript",
+            react: "React & Next.js",
+            node: "Node.js & Express",
+            python: "Python/Django",
+            db: "Datenbankdesign"
+          }
+        },
+        expertise: {
+          title: "Meine Expertise",
+          subtitle: "Bereiche mit tiefem Wissen und Spezialisierung",
+          education: {
+  title: "Bildung",
+  degree1: "ITSA Systemtechnik", 
+  degree2: "DGETI Programmierung"
+          },
+          tech: {
+            title: "Technologien",
+            languages: "JavaScript/TypeScript, Python, C#, Java, PHP",
+            web: "HTML5, CSS3, Sass, Tailwind"
+          },
+          frameworks: {
+            title: "Frameworks",
+            frontend: "React, Next.js, Node.js, Express, Django",
+            backend: "Laravel, .NET Core, Vue.js"
+          },
+          infra: {
+            title: "Infrastruktur",
+            cloud: "AWS, Docker, Kubernetes",
+            devops: "CI/CD Pipelines, Microservices"
+          }
+        },
+        services: {
+          title: "Dienstleistungen",
+          subtitle: "Umfassende Lösungen für Ihre digitalen Anforderungen",
+          webdev: {
+            title: "Individuelle Webentwicklung",
+            description: "Maßgeschneiderte Webanwendungen, die mit modernsten Technologien gebaut und für Leistung und Skalierbarkeit optimiert sind.",
+            features: [
+              "Vollständig responsives Design",
+              "SEO-optimiert",
+              "Leistungsorientiert"
+            ]
+          },
+          social: {
+            title: "Social Media Wachstum",
+            description: "Strategien und Tools, um Ihre Social-Media-Präsenz und Ihr Engagement zu verstärken.",
+            features: [
+              "Content-Strategie",
+              "Analyseintegration",
+              "Wachstumsautomatisierung"
+            ]
+          },
+          radio: {
+            title: "Funklösungen",
+            description: "Komplette Funkkommunikationssysteme für Unternehmen und Organisationen.",
+            features: [
+              "Geräteeinrichtung",
+              "Netzwerkkonfiguration",
+              "Wartungspläne"
+            ]
+          },
+          automation: {
+            title: "Prozessautomatisierung",
+            description: "Individuelle Software, die repetitive Aufgaben übernimmt, Zeit spart und Fehler reduziert.",
+            features: [
+              "Workflow-Automatisierung",
+              "Datenverarbeitung",
+              "Systemintegration"
+            ]
+          }
+        },
+        projects: {
+          title: "Ausgewählte Projekte",
+          subtitle: "Eine Auswahl meiner aktuellen Arbeiten",
+          ecommerce: {
+            title: "Unicode Text Converter",
+            description: "Text-zu-Unicode-Konverter"
+          },
+          social: {
+            title: "Social-Media-Dashboard",
+            description: "Analytikplattform für Social-Media-Manager"
+          },
+          radio: {
+            title: "Funkverwaltungssystem",
+            description: "Kommunikationssystem für Rettungsdienste"
+          },
+          automation: {
+            title: "Python to Exe",
+            description: "Python-Lösung zu ausführbaren Dateien"
+          },
+          cta: "Alle Projekte ansehen"
+        },
+        testimonials: {
+          title: "Kundenreferenzen",
+          subtitle: "Was meine Kunden über meine Arbeit sagen",
+          testimonial1: {
+            name: "Thomas Müller",
+            role: "CEO, TechCorp",
+            text: "\"Alejandro hat unsere E-Commerce-Plattform komplett umgestaltet. Das neue System verarbeitet dreimal mehr Traffic mit kürzeren Ladezeiten und hat unsere Konversionsraten deutlich verbessert.\""
+          },
+          testimonial2: {
+            name: "Anna Schmidt",
+            role: "Marketingleiterin",
+            text: "\"Das Social-Media-Dashboard, das Alejandro gebaut hat, ist für unser Team unverzichtbar geworden. Es spart uns jede Woche Stunden und liefert Erkenntnisse, die wir mit keinem anderen Tool erhalten könnten.\""
+          },
+          testimonial3: {
+            name: "Michael Weber",
+            role: "Betriebsleiter",
+            text: "\"Unser Funkkommunikationssystem war noch nie so zuverlässig. Alejandros Lösung integrierte sich nahtlos in unsere bestehende Infrastruktur und hat unsere Reaktionszeiten deutlich verbessert.\""
+          }
+        },
+        contact: {
+          title: "Kontakt",
+          subtitle: "Lassen Sie uns über Ihr nächstes Projekt sprechen",
+          email: "E-Mail",
+          phone: "Telefon",
+          location: "Standort",
+          city: "Berlin, Deutschland",
+          form: {
+            name: "Ihr Name",
+            email: "Ihre E-Mail",
+            subject: "Betreff",
+            message: "Ihre Nachricht",
+            submit: "Nachricht senden"
+          },
+          success: "Vielen Dank für Ihre Nachricht! Ich werde mich bald bei Ihnen melden."
+        },
+        footer: {
+          tagline: "Digitale Exzellenz entwickeln",
+          copyright: "© {year} Alejandro Téllez. Alle Rechte vorbehalten."
+        }
+      },
+      pt: {
+        navbar: {
+          about: "Sobre",
+          expertise: "Experiência",
+          services: "Serviços",
+          projects: "Projetos",
+          testimonials: "Depoimentos",
+          contact: "Contato"
+        },
+        hero: {
+          titleLine1: "Soluções Digitais",
+          titleLine2: "Projetadas para",
+          titleLine3: "Perfeição",
+          subtitle: "Desenvolvedor full-stack & arquiteto digital criando experiências web de alto desempenho",
+          ctaWork: "Ver Trabalhos",
+          ctaContact: "Contato"
+        },
+        about: {
+          title: "Sobre Mim",
+          subtitle: "Quem sou e o que faço",
+          name: "Alejandro Téllez",
+          role: "Desenvolvedor Full-Stack",
+          description: "Com mais de 8 anos de experiência em desenvolvimento web, me especializo em criar soluções digitais robustas e escaláveis que combinam tecnologia de ponta com design intuitivo. Sou fluente em espanhol, inglês e português, o que me permite colaborar efetivamente em projetos internacionais.",
+          stats: {
+            projects: "Projetos",
+            satisfaction: "Satisfação",
+            experience: "Anos Exp.",
+            languages: "Idiomas"
+          },
+          skills: {
+            js: "JavaScript/TypeScript",
+            react: "React & Next.js",
+            node: "Node.js & Express",
+            python: "Python/Django",
+            db: "Design de Banco de Dados"
+          }
+        },
+        expertise: {
+          title: "Minha Experiência",
+          subtitle: "Áreas de conhecimento profundo e especialização",
+          education: {
+  title: "Educação",
+  degree1: "ITSA Engenharia de Sistemas",
+  degree2: "DGETI Programação"
+          },
+          tech: {
+            title: "Tecnologias",
+            languages: "JavaScript/TypeScript, Python, C#, Java, PHP",
+            web: "HTML5, CSS3, Sass, Tailwind"
+          },
+          frameworks: {
+            title: "Frameworks",
+            frontend: "React, Next.js, Node.js, Express, Django",
+            backend: "Laravel, .NET Core, Vue.js"
+          },
+          infra: {
+            title: "Infraestrutura",
+            cloud: "AWS, Docker, Kubernetes",
+            devops: "CI/CD Pipelines, Microserviços"
+          }
+        },
+        services: {
+          title: "Serviços",
+          subtitle: "Soluções completas para suas necessidades digitais",
+          webdev: {
+            title: "Desenvolvimento Web Personalizado",
+            description: "Aplicações web sob medida construídas com tecnologias de ponta, otimizadas para desempenho e escalabilidade.",
+            features: [
+              "Design totalmente responsivo",
+              "Otimizado para SEO",
+              "Foco em performance"
+            ]
+          },
+          social: {
+            title: "Crescimento Social",
+            description: "Estratégias e ferramentas para amplificar sua presença e engajamento nas redes sociais.",
+            features: [
+              "Estratégia de conteúdo",
+              "Integração analítica",
+              "Automação de crescimento"
+            ]
+          },
+          radio: {
+            title: "Soluções de Rádio",
+            description: "Sistemas completos de comunicação por rádio para empresas e organizações.",
+            features: [
+              "Configuração de equipamentos",
+              "Configuração de rede",
+              "Planos de manutenção"
+            ]
+          },
+          automation: {
+            title: "Automação de Processos",
+            description: "Software personalizado que executa tarefas repetitivas, economizando tempo e reduzindo erros.",
+            features: [
+              "Automação de fluxos",
+              "Processamento de dados",
+              "Integração de sistemas"
+            ]
+          }
+        },
+        projects: {
+          title: "Projetos Destacados",
+          subtitle: "Uma seleção dos meus trabalhos recentes",
+          ecommerce: {
+            title: "Unicode Text Converter",
+            description: "Conversor de texto em Unicode"
+          },
+          social: {
+            title: "Painel de Redes Sociais",
+            description: "Plataforma de análise para gestores de mídia social"
+          },
+          radio: {
+            title: "Sistema de Gerenciamento de Rádio",
+            description: "Sistema de comunicação para serviços de emergência"
+          },
+          automation: {
+            title: "Python to Exe",
+            description: "Solução de Python para executáveis"
+          },
+          cta: "Ver Todos os Projetos"
+        },
+        testimonials: {
+          title: "Depoimentos de Clientes",
+          subtitle: "O que meus clientes dizem sobre meu trabalho",
+          testimonial1: {
+            name: "João Silva",
+            role: "CEO, TechCorp",
+            text: "\"Alejandro transformou completamente nossa plataforma de e-commerce. O novo sistema lida com 3 vezes mais tráfego com tempos de carregamento mais rápidos e melhorou significativamente nossas taxas de conversão.\""
+          },
+          testimonial2: {
+            name: "Maria Santos",
+            role: "Diretora de Marketing",
+            text: "\"O painel de mídia social que Alejandro construiu tornou-se indispensável para nossa equipe. Economiza horas toda semana e fornece insights que não conseguiríamos com nenhuma outra ferramenta.\""
+          },
+          testimonial3: {
+            name: "Carlos Oliveira",
+            role: "Gerente de Operações",
+            text: "\"Nosso sistema de comunicação por rádio nunca foi tão confiável. A solução do Alejandro se integrou perfeitamente à nossa infraestrutura existente e melhorou significativamente nossos tempos de resposta.\""
+          }
+        },
+        contact: {
+          title: "Entre em Contato",
+          subtitle: "Vamos discutir seu próximo projeto",
+          email: "Email",
+          phone: "Telefone",
+          location: "Localização",
+          city: "São Paulo, Brasil",
+          form: {
+            name: "Seu Nome",
+            email: "Seu Email",
+            subject: "Assunto",
+            message: "Sua Mensagem",
+            submit: "Enviar Mensagem"
+          },
+          success: "Obrigado por sua mensagem! Entrarei em contato em breve."
+        },
+        footer: {
+          tagline: "Engenharia de excelência digital",
+          copyright: "© {year} Alejandro Téllez. Todos os direitos reservados."
+        }
+      }
+    };
+
+    // Configuración inicial de idioma
+    let currentLanguage = 'es';
+
+    // Función para actualizar metadatos
+    function updateMetaTags(lang) {
+      document.title = translations[lang].meta?.title || "Alejandro Téllez | Portafolio Profesional";
+      
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.content = translations[lang].meta?.description || "Desarrollador Full-Stack & Arquitecto Digital";
+    }
+
+    // Función para actualizar todos los textos
+    function updateTexts(lang) {
+      updateMetaTags(lang);
+      const t = translations[lang];
+      
+      // Navbar
+      document.querySelectorAll('.nav-links a')[0].textContent = t.navbar.about;
+      document.querySelectorAll('.nav-links a')[1].textContent = t.navbar.expertise;
+      document.querySelectorAll('.nav-links a')[2].textContent = t.navbar.services;
+      document.querySelectorAll('.nav-links a')[3].textContent = t.navbar.projects;
+      document.querySelectorAll('.nav-links a')[4].textContent = t.navbar.testimonials;
+      document.querySelectorAll('.nav-links a')[5].textContent = t.navbar.contact;
+      
+      // Hero section
+      const heroTitleLines = document.querySelectorAll('.hero-title .title-line');
+      heroTitleLines[0].textContent = t.hero.titleLine1;
+      heroTitleLines[1].textContent = t.hero.titleLine2;
+      heroTitleLines[2].textContent = t.hero.titleLine3;
+      document.querySelector('.hero-subtitle').textContent = t.hero.subtitle;
+      document.querySelectorAll('.hero-cta .btn')[0].textContent = t.hero.ctaWork;
+      document.querySelectorAll('.hero-cta .btn')[1].textContent = t.hero.ctaContact;
+      
+      // About section
+      document.querySelector('#about .section-title').textContent = t.about.title;
+      document.querySelector('#about .section-subtitle').textContent = t.about.subtitle;
+      document.querySelector('.about-content h3').textContent = t.about.name;
+      document.querySelector('.about-content .title').textContent = t.about.role;
+      document.querySelector('.about-content p').textContent = t.about.description;
+      document.querySelectorAll('.stat-label')[0].textContent = t.about.stats.projects;
+      document.querySelectorAll('.stat-label')[1].textContent = t.about.stats.satisfaction;
+      document.querySelectorAll('.stat-label')[2].textContent = t.about.stats.experience;
+      document.querySelectorAll('.stat-label')[3].textContent = t.about.stats.languages;
+      
+      // Skills
+      document.querySelectorAll('.skill-info span')[0].textContent = t.about.skills.js;
+      document.querySelectorAll('.skill-info span')[2].textContent = t.about.skills.react;
+      document.querySelectorAll('.skill-info span')[4].textContent = t.about.skills.node;
+      document.querySelectorAll('.skill-info span')[6].textContent = t.about.skills.python;
+      document.querySelectorAll('.skill-info span')[8].textContent = t.about.skills.db;
+      
+      // Expertise
+      document.querySelector('#expertise .section-title').textContent = t.expertise.title;
+      document.querySelector('#expertise .section-subtitle').textContent = t.expertise.subtitle;
+      
+      const cards = document.querySelectorAll('#expertise .card');
+      cards[0].querySelector('h3').textContent = t.expertise.education.title;
+      cards[0].querySelectorAll('p')[0].textContent = t.expertise.education.degree1;
+      cards[0].querySelectorAll('p')[1].textContent = t.expertise.education.degree2;
+      
+      cards[1].querySelector('h3').textContent = t.expertise.tech.title;
+      cards[1].querySelectorAll('p')[0].textContent = t.expertise.tech.languages;
+      cards[1].querySelectorAll('p')[1].textContent = t.expertise.tech.web;
+      
+      cards[2].querySelector('h3').textContent = t.expertise.frameworks.title;
+      cards[2].querySelectorAll('p')[0].textContent = t.expertise.frameworks.frontend;
+      cards[2].querySelectorAll('p')[1].textContent = t.expertise.frameworks.backend;
+      
+      cards[3].querySelector('h3').textContent = t.expertise.infra.title;
+      cards[3].querySelectorAll('p')[0].textContent = t.expertise.infra.cloud;
+      cards[3].querySelectorAll('p')[1].textContent = t.expertise.infra.devops;
+      
+      // Services
+      document.querySelector('#services .section-title').textContent = t.services.title;
+      document.querySelector('#services .section-subtitle').textContent = t.services.subtitle;
+      
+      const services = document.querySelectorAll('#services .service-card');
+      services[0].querySelector('h3').textContent = t.services.webdev.title;
+      services[0].querySelector('p').textContent = t.services.webdev.description;
+      t.services.webdev.features.forEach((feature, i) => {
+        services[0].querySelectorAll('.service-features li')[i].textContent = feature;
+      });
+      
+      services[1].querySelector('h3').textContent = t.services.social.title;
+      services[1].querySelector('p').textContent = t.services.social.description;
+      t.services.social.features.forEach((feature, i) => {
+        services[1].querySelectorAll('.service-features li')[i].textContent = feature;
+      });
+      
+      services[2].querySelector('h3').textContent = t.services.radio.title;
+      services[2].querySelector('p').textContent = t.services.radio.description;
+      t.services.radio.features.forEach((feature, i) => {
+        services[2].querySelectorAll('.service-features li')[i].textContent = feature;
+      });
+      
+      services[3].querySelector('h3').textContent = t.services.automation.title;
+      services[3].querySelector('p').textContent = t.services.automation.description;
+      t.services.automation.features.forEach((feature, i) => {
+        services[3].querySelectorAll('.service-features li')[i].textContent = feature;
+      });
+      
+      // Projects
+      document.querySelector('#projects .section-title').textContent = t.projects.title;
+      document.querySelector('#projects .section-subtitle').textContent = t.projects.subtitle;
+      
+      const projects = document.querySelectorAll('#projects .project');
+      projects[0].querySelector('h4').textContent = t.projects.ecommerce.title;
+      projects[0].querySelector('p').textContent = t.projects.ecommerce.description;
+      
+      projects[1].querySelector('h4').textContent = t.projects.social.title;
+      projects[1].querySelector('p').textContent = t.projects.social.description;
+      
+      projects[2].querySelector('h4').textContent = t.projects.radio.title;
+      projects[2].querySelector('p').textContent = t.projects.radio.description;
+      
+      projects[3].querySelector('h4').textContent = t.projects.automation.title;
+      projects[3].querySelector('p').textContent = t.projects.automation.description;
+      
+      document.querySelector('.projects-cta .btn').textContent = t.projects.cta;
+      
+      // Testimonials
+      document.querySelector('#testimonials .section-title').textContent = t.testimonials.title;
+      document.querySelector('#testimonials .section-subtitle').textContent = t.testimonials.subtitle;
+      
+      const reviews = document.querySelectorAll('#testimonials .review');
+      reviews[0].querySelector('h4').textContent = t.testimonials.testimonial1.name;
+      reviews[0].querySelector('.review-author p').textContent = t.testimonials.testimonial1.role;
+      reviews[0].querySelector('.review-text').textContent = t.testimonials.testimonial1.text;
+      
+      reviews[1].querySelector('h4').textContent = t.testimonials.testimonial2.name;
+      reviews[1].querySelector('.review-author p').textContent = t.testimonials.testimonial2.role;
+      reviews[1].querySelector('.review-text').textContent = t.testimonials.testimonial2.text;
+      
+      reviews[2].querySelector('h4').textContent = t.testimonials.testimonial3.name;
+      reviews[2].querySelector('.review-author p').textContent = t.testimonials.testimonial3.role;
+      reviews[2].querySelector('.review-text').textContent = t.testimonials.testimonial3.text;
+      
+      // Contact
+      document.querySelector('#contact .section-title').textContent = t.contact.title;
+      document.querySelector('#contact .section-subtitle').textContent = t.contact.subtitle;
+      
+      const contactMethods = document.querySelectorAll('.contact-method');
+      contactMethods[0].querySelector('h4').textContent = t.contact.email;
+      contactMethods[1].querySelector('h4').textContent = t.contact.phone;
+      contactMethods[2].querySelector('h4').textContent = t.contact.location;
+      contactMethods[2].querySelector('p').textContent = t.contact.city;
+      
+      const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
+      formInputs[0].placeholder = t.contact.form.name;
+      formInputs[1].placeholder = t.contact.form.email;
+      formInputs[2].placeholder = t.contact.form.subject;
+      formInputs[3].placeholder = t.contact.form.message;
+      
+      document.querySelector('.contact-form button').textContent = t.contact.form.submit;
+      
+      // Footer
+      document.querySelector('.footer-tagline').textContent = t.footer.tagline;
+      document.querySelector('.footer-copyright').textContent = t.footer.copyright.replace('{year}', new Date().getFullYear());
+    }
+
+    // Event listeners para botones de idioma
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        currentLanguage = lang;
+        updateTexts(lang);
         
-        const revealOnScroll = () => {
-            revealElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (elementTop < windowHeight - 100) {
-                    element.classList.add('active');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
-
-        // Animate skill bars on scroll
-        const skillBars = document.querySelectorAll('.skill-progress');
+        // Actualizar clase activa
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         
-        const animateSkillBars = () => {
-            skillBars.forEach(bar => {
-                const barTop = bar.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (barTop < windowHeight - 100 && !bar.style.width) {
-                    const width = bar.parentElement.previousElementSibling.lastElementChild.textContent;
-                    bar.style.width = width;
-                }
-            });
-        };
+        // Guardar preferencia de idioma
+        localStorage.setItem('preferredLanguage', lang);
+      });
+    });
 
-        window.addEventListener('scroll', animateSkillBars);
-        window.addEventListener('load', animateSkillBars);
-    </script>
+    // Cargar idioma preferido si existe
+    const preferredLanguage = localStorage.getItem('preferredLanguage') || 'es';
+    currentLanguage = preferredLanguage;
+    updateTexts(preferredLanguage);
+    document.querySelector(`.lang-btn[data-lang="${preferredLanguage}"]`).classList.add('active');
+
+    // Animación al hacer scroll (reveal)
+    const sections = document.querySelectorAll('.section');
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2
+    };
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal');
+          sectionObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Header scroll effect
+    const header = document.querySelector('header');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll <= 0) {
+        header.style.transform = 'translateY(0)';
+        header.style.boxShadow = 'var(--shadow-md)';
+        return;
+      }
+      
+      if (currentScroll > lastScroll && !navLinks.classList.contains('active')) {
+        // Scroll down
+        header.style.transform = 'translateY(-100%)';
+        header.style.boxShadow = 'none';
+      } else {
+        // Scroll up
+        header.style.transform = 'translateY(0)';
+        header.style.boxShadow = 'var(--shadow-md)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // Project hover effect
+    const projects = document.querySelectorAll('.project');
+
+    projects.forEach(project => {
+      project.addEventListener('mouseenter', () => {
+        project.querySelector('.project-overlay').style.opacity = '1';
+      });
+      
+      project.addEventListener('mouseleave', () => {
+        project.querySelector('.project-overlay').style.opacity = '0';
+      });
+    });
+
+    // Form submission
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Get form values
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData);
+        
+        // Here you would typically send the data to a server
+        console.log('Form submitted:', data);
+        
+        // Show success message
+        const t = translations[currentLanguage];
+        alert(t.contact.success);
+        contactForm.reset();
+      });
+    }
+
+    // Initialize animations when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add loaded class to body for transition effects
+      document.body.classList.add('loaded');
+      
+      // Set current year in footer
+      const yearElement = document.querySelector('.footer-copyright');
+      if (yearElement) {
+        yearElement.textContent = yearElement.textContent.replace('2025', new Date().getFullYear());
+      }
+    });
+    (function() {
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      
+      submitButton.textContent = 'Enviando...';
+      submitButton.disabled = true;
+      
+      try {
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          body: new FormData(contactForm),
+          headers: { 'Accept': 'application/json' }
+        });
+        
+        if (response.ok) {
+          alert('¡Mensaje enviado con éxito! Te responderé pronto.');
+          contactForm.reset();
+        } else {
+          throw new Error('Error en el servidor');
+        }
+      } catch (error) {
+        alert('Hubo un error al enviar el mensaje. Por favor inténtalo de nuevo más tarde.');
+        console.error('Error:', error);
+      } finally {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+    });
+  }
+})();
+  </script>
 </body>
 </html>
